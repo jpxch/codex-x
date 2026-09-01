@@ -34,7 +34,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
         {params.error && <p className={styles.error}>{params.error}</p>}
 
-        {params.error && <p className={styles.message}>{params.message}</p>}
+        {params.message && <p className={styles.message}>{params.message}</p>}
 
         <form className={styles.form}>
           <label>

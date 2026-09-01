@@ -16,9 +16,9 @@ export async function setReady(campaignId: string, ready: boolean) {
   }
 
   const { error } = await supabase
-    .from('campaing_members')
+    .from('campaign_members')
     .update({ ready })
-    .eq('campaing_id', campaignId)
+    .eq('campaign_id', campaignId)
     .eq('user_id', userId);
 
   if (error) {

@@ -7,7 +7,7 @@ as $$
 begin
     insert into public.profiles (
         id,
-        dispaly_name
+        display_name
     )
     values (
         new.id,
@@ -52,30 +52,16 @@ revoke all
     from public, anon;
 
 grant execute
-    on function private.shares_compaign_with(uuid)
+    on function private.shares_campaign_with(uuid)
+    to authenticated;
 
-create policy "Campaign members can read each other's profiles"
+create policy "Campaign members can read shared profiles"
 on public.profiles
 for select
 to authenticated
 using (
     private.shares_campaign_with(id)
 );
-
-alter table public.campaign_members
-add column ready boolean not null default false;
-
-grant update (ready)
-    on public.campaign_members\
-    to authenticated;
-
-create policy "Campaign members can read each other's profiles"
-on public.profiles
-for select
-to authenticated
-using (
-    private.shares_campaign_with(id)
-;)
 
 alter table public.campaign_members
 add column ready boolean not null default false;
@@ -86,7 +72,8 @@ grant update (ready)
 
 create policy "Users can update their own lobby state"
 on public.campaign_members
-for update to authenticated
+for update
+to authenticated
 using (
     user_id = (select auth.uid())
 )
@@ -95,7 +82,7 @@ with check (
 );
 
 revoke select
-    on  public.campaigns
+    on public.campaigns
     from authenticated;
 
 grant select (
@@ -108,20 +95,20 @@ grant select (
     updated_at
 )
     on public.campaigns
-    to authenticed;
+    to authenticated;
 
 create or replace function public.create_campaign(
     campaign_title text
 )
-return uuid
-language plpsql
+returns uuid
+language plpgsql
 security definer
 set search_path = ''
 as $$
 declare
     current_user_id uuid;
     new_campaign_id uuid;
-    generated_invited_code text;
+    generated_invite_code text;
 begin
     current_user_id := auth.uid();
 
@@ -165,7 +152,7 @@ begin
         user_id,
         role
     )
-    value (
+    values (
         new_campaign_id,
         current_user_id,
         'host'
@@ -180,7 +167,7 @@ revoke all
     from public, anon;
 
 grant execute
-    on function public.campaign(text)
+    on function public.create_campaign(text)
     to authenticated;
 
 create or replace function public.join_campaign_by_invite_code(
@@ -239,7 +226,7 @@ grant execute
 create or replace function public.get_campaign_invite_code(
     target_campaign_id uuid
 )
-return text
+returns text
 language sql
 stable
 security definer

@@ -46,7 +46,7 @@ export async function createCampaign(formData: FormData) {
   });
 
   if (error || !data) {
-    redirect('/lebby?error=' + encodeURIComponent(error?.message ?? 'Could not create campaign.'));
+    redirect('/lobby?error=' + encodeURIComponent(error?.message ?? 'Could not create campaign.'));
   }
 
   redirect(`/campaigns/${data}/lobby`);
@@ -67,7 +67,7 @@ export async function joinCampaign(formData: FormData) {
     supplied_invite_code: parsed.data.inviteCode,
   });
 
-  if (!error || !data) {
+  if (error || !data) {
     redirect('/lobby?error=' + encodeURIComponent(error?.message ?? 'Could not join campaign.'));
   }
 

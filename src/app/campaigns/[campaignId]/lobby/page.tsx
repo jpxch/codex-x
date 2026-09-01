@@ -54,7 +54,7 @@ export default async function CampaignLobbyPage({ params }: CampaignLobbyPagePro
 
   const names = new Map(profiles?.map((profile) => [profile.id, profile.display_name]));
 
-  const curerntMembership = members?.find((member) => member.user_id === userId);
+  const currentMembership = members?.find((member) => member.user_id === userId);
 
   const isHost = campaign.created_by === userId;
 
@@ -114,9 +114,9 @@ export default async function CampaignLobbyPage({ params }: CampaignLobbyPagePro
         </div>
       </section>
 
-      {curerntMembership && (
+      {currentMembership && (
         <div className={styles.readyControl}>
-          <ReadyButton campaignId={campaignId} ready={curerntMembership.ready} />
+          <ReadyButton campaignId={campaignId} ready={currentMembership.ready} />
         </div>
       )}
     </main>

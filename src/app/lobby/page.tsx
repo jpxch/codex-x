@@ -84,7 +84,7 @@ export default async function LobbyPage({ searchParams }: LobbyPageProps) {
             {campaigns.map((campaign) => (
               <Link
                 key={campaign.id}
-                href={`/campaings/${campaign.id}/lobby`}
+                href={`/campaigns/${campaign.id}/lobby`}
                 className={styles.campaign}
               >
                 <strong>{campaign.title}</strong>

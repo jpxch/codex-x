@@ -47,7 +47,7 @@ export async function signup(formData: FormData) {
   });
 
   if (!parsed.success) {
-    errorRedirect('Enter a dispaly name, valid email, and password of at least 8 characters.');
+    errorRedirect('Enter a display name, valid email, and password of at least 8 characters.');
   }
 
   const supabase = await createClient();
@@ -57,7 +57,7 @@ export async function signup(formData: FormData) {
     password: parsed.data.password,
     options: {
       data: {
-        dispaly_name: parsed.data.displayName,
+        display_name: parsed.data.displayName,
       },
     },
   });

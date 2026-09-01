@@ -19,7 +19,7 @@ export function LiveLobby({ campaignId }: { campaignId: string }) {
           event: '*',
           schema: 'public',
           table: 'campaign_members',
-          filter: `campaing_id=eq.${campaignId}`,
+          filter: `campaign_id=eq.${campaignId}`,
         },
         () => {
           router.refresh();
